@@ -20,6 +20,11 @@ public class CSVReader {
      * @throws IOException If an I/O error occurs while reading the file.
      */
     public List<String[]> readCSV(String filename) throws IOException {
+        // Validate that the input file is a CSV file
+        if (!filename.endsWith(".csv")) {
+            throw new IOException("The file must be a .csv file.");
+        }
+
         List<String[]> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;

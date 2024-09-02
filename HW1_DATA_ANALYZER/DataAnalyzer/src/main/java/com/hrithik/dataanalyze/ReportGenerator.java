@@ -17,6 +17,11 @@ public class ReportGenerator {
      * @throws IOException If an I/O error occurs while writing the file.
      */
     public void generateReport(String filename, String reportContent) throws IOException {
+        // Validate that the output file has a valid extension (e.g., .txt)
+        if (!filename.endsWith(".txt")) {
+            throw new IOException("The output file must be a .txt file.");
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write(reportContent);
         }

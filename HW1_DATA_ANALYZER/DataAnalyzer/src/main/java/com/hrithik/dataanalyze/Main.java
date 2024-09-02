@@ -24,6 +24,12 @@ public class Main {
         System.out.print("Enter the CSV filename to analyze (e.g., src/main/resources/googleplaystore.csv): ");
         String inputFilename = scanner.nextLine();
 
+        // Validate that the input file is a CSV file
+        if (!inputFilename.endsWith(".csv")) {
+            System.err.println("Error: The file must be a .csv file.");
+            return;
+        }
+
         // Instantiate necessary components
         CSVReader csvReader = new CSVReader();
         DataAnalyzer dataAnalyzer = new DataAnalyzer();
@@ -83,6 +89,13 @@ public class Main {
             // Save the report to a file
             System.out.print("Enter the filename to save the report (e.g., report.txt): ");
             String outputFilename = scanner.nextLine();
+
+            // Validate that the output file has a valid extension (e.g., .txt)
+            if (!outputFilename.endsWith(".txt")) {
+                System.err.println("Error: The output file must be a .txt file.");
+                return;
+            }
+
             File reportFile = new File(outputFilename);
             reportGenerator.generateReport(reportFile.getAbsolutePath(), reportContent.toString());
 
