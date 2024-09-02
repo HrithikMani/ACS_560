@@ -1,0 +1,14 @@
+Rating Analysis
+Mean Rating: 4.1826659103800425
+Median Rating: 4.3
+Mode Ratings: [4.4]
+
+Install Count Analysis
+Mean Installs: 55282.569755600816
+Median Installs: 100.0
+Mode Installs: [100]
+
+Sentiment Analysis
+Positive: 13656
+Neutral: 3864
+Negative: 4452

@@ -6,21 +6,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Main class that drives the application.
+ * It reads a CSV file, analyzes the data, and generates a report.
+ */
 public class Main {
+    
+    /**
+     * Main method to start the program.
+     * 
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // Prompt for CSV Input
         System.out.print("Enter the CSV filename to analyze (e.g., src/main/resources/googleplaystore.csv): ");
         String inputFilename = scanner.nextLine();
 
+        // Instantiate necessary components
         CSVReader csvReader = new CSVReader();
         DataAnalyzer dataAnalyzer = new DataAnalyzer();
         ReportGenerator reportGenerator = new ReportGenerator();
 
         try {
+            // Read the CSV file
             List<String[]> data = csvReader.readCSV(inputFilename);
 
-            // Rating Analysis
+            // Perform Rating Analysis
             List<Double> ratings = data.stream()
                                        .map(row -> {
                                            try {
@@ -36,7 +49,7 @@ public class Main {
             double medianRating = dataAnalyzer.calculateMedian(ratings);
             Map<Double, Integer> modeRatings = dataAnalyzer.calculateMode(ratings);
 
-            // Install Count Analysis (after cleaning)
+            // Perform Install Count Analysis (after cleaning)
             List<Long> installs = data.stream()
                                       .map(row -> {
                                           try {
