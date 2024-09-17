@@ -1,13 +1,9 @@
 package com.example.hw2_rest_api.util;
 
 import com.example.hw2_rest_api.model.DataModel;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,18 +14,18 @@ import java.util.List;
 public class CSVReader {
 
     /**
-     * Reads a CSV file from an InputStream and parses it into a list of DataModel objects.
+     * Reads a CSV file from a provided File object and parses it into a list of DataModel objects.
      * 
-     * @param inputStream The input stream to read the CSV file from.
+     * @param file The File object pointing to the CSV file.
      * @return A list of DataModel objects parsed from the CSV.
      * @throws IOException If an I/O error occurs.
      */
-    public List<DataModel> readCSV(InputStream inputStream) throws IOException {
+    public List<DataModel> readCSVFromFile(File file) throws IOException {
         List<DataModel> dataModels = new ArrayList<>();
         String line;
         String splitBy = ",";
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             // Skip the header
             br.readLine();
 
@@ -80,17 +76,5 @@ public class CSVReader {
         }
 
         return dataModels;
-    }
-
-    /**
-     * Reads a CSV file from the resources folder.
-     * 
-     * @param filePath The path to the CSV file in the resources folder.
-     * @return A list of DataModel objects parsed from the CSV.
-     * @throws IOException If an I/O error occurs.
-     */
-    public List<DataModel> readCSVFromResources(String filePath) throws IOException {
-        InputStream inputStream = new ClassPathResource(filePath).getInputStream();
-        return readCSV(inputStream);
     }
 }
