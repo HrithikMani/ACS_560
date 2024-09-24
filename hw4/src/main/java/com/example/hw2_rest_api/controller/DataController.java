@@ -54,4 +54,6 @@ public class DataController {
     public Map<String, Double> getInstallsAnalysis() {
         return dataAnalysisService.getInstallsAnalysis();
     }
+
+    
 }
