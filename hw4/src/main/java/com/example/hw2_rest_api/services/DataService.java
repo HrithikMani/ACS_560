@@ -61,4 +61,13 @@ public class DataService {
     public List<DataModel> getAllData() {
         return dataRepository.getAllData();
     }
+     /**
+     * Searches data entries by a given keyword in the name or category fields.
+     *
+     * @param keyword The keyword to search within data entries.
+     * @return A list of data models matching the search criteria.
+     */
+    public List<DataModel> searchDataByKeyword(String keyword) {
+        return dataRepository.searchData(keyword);
+    }
 }

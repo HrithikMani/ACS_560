@@ -109,4 +109,23 @@ public class DataCrudController {
             return new ResponseEntity<>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);  // 500 Internal Server Error
         }
     }
+
+      /**
+     * Search data by keywords in the name or category fields.
+     *
+     * @param keyword The keyword to search for in the data entries.
+     * @return ResponseEntity containing a list of matching data models and HTTP status.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<?> searchData(@RequestParam String keyword) {
+        try {
+            List<DataModel> searchResults = dataService.searchDataByKeyword(keyword);
+            if (searchResults.isEmpty()) {
+                return new ResponseEntity<>(new ResponseMessage("No matching data found", 404), HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(searchResults, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ResponseMessage("Internal Server Error", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

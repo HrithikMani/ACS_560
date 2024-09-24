@@ -11,6 +11,7 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.stream.Collectors;
 
 /**
  * Repository class to manage data access from CSV files.
@@ -206,5 +207,20 @@ public class DataRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    /**
+     * Searches the data list for entries that match the given keyword in either
+     * the name or category fields.
+     *
+     * @param keyword The keyword to search for.
+     * @return A list of data models that match the search keyword.
+     */
+    public List<DataModel> searchData(String keyword) {
+        return dataList.stream()
+                .filter(data -> data.getName().toLowerCase().contains(keyword.toLowerCase())
+                        || data.getCategory().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
