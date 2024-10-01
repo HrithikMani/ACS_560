@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "HW1_DATA_ANALYZER/src",
+        "hw5/src/main/java/com/example/hw2_rest_api"
+    ]
+}
