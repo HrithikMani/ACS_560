@@ -22,10 +22,10 @@ CREATE TABLE data_model (
 -- Create the UserReview table with a foreign key relationship to DataModel
 CREATE TABLE user_review (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    app_id BIGINT NOT NULL,
+    data_model_id BIGINT NOT NULL,  -- Changed column name to align with code
     sentiment VARCHAR(50),
     sentiment_polarity DECIMAL(3, 2),
     sentiment_subjectivity DECIMAL(3, 2),
     review TEXT,
-    FOREIGN KEY (app_id) REFERENCES data_model(id)
+    FOREIGN KEY (data_model_id) REFERENCES data_model(id) ON DELETE CASCADE  -- Added ON DELETE CASCADE for relational integrity
 );

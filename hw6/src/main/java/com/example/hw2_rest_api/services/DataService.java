@@ -1,122 +1,121 @@
 package com.example.hw2_rest_api.services;
 
+import com.example.hw2_rest_api.dto.DataModelDTO;
+import com.example.hw2_rest_api.dto.UserReviewDTO;
 import com.example.hw2_rest_api.model.DataModel;
+import com.example.hw2_rest_api.model.UserReview;
 import com.example.hw2_rest_api.repositories.DataRepository;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
+import com.example.hw2_rest_api.repositories.UserReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class DataService implements ApplicationRunner {
+public class DataService {
 
     private final DataRepository dataRepository;
+    private final UserReviewRepository userReviewRepository;
 
     @Autowired
-    public DataService(DataRepository dataRepository) {
+    public DataService(DataRepository dataRepository, UserReviewRepository userReviewRepository) {
         this.dataRepository = dataRepository;
+        this.userReviewRepository = userReviewRepository;
     }
 
-    // Load CSV data on startup
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        String csvFilePath = "googleplaystore.csv";  // Set your actual file path here
-        loadCsvData(csvFilePath);
+    public List<DataModelDTO> getAllDataDTO() {
+        return dataRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    // Method to load CSV data
-    public void loadCsvData(String filePath) {
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath))
-                .withCSVParser(new CSVParserBuilder()
-                        .withSeparator(',')
-                        .withQuoteChar('"')
-                        .withEscapeChar('\\')
-                        .withIgnoreQuotations(false)
-                        .build())
-                .withMultilineLimit(Integer.MAX_VALUE)
-                .build()) {
-
-            List<String[]> rows = reader.readAll();
-
-            if (rows.isEmpty()) {
-                System.err.println("CSV file is empty.");
-                return;
-            }
-
-            for (String[] row : rows.subList(1, rows.size())) {  // Skip the header row
-                try {
-                    if (row.length >= 9) {
-                        DataModel dataModel = new DataModel();
-                        dataModel.setName(row[0]);
-                        dataModel.setCategory(row[1]);
-                        dataModel.setRating(Double.parseDouble(row[2].isEmpty() ? "0.0" : row[2]));
-                        dataModel.setReviews(Integer.parseInt(row[3].isEmpty() ? "0" : row[3]));
-                        dataModel.setSize(row[4]);
-                        dataModel.setInstalls(row[5]);
-                        dataModel.setType(row[6]);
-                        dataModel.setPrice(!row[7].isEmpty() && row[7] != null ? Double.parseDouble(row[7]) : 0.0);
-                        dataModel.setContentRating(row[8]);
-
-                        // Save each row if it doesn't already exist in the repository
-                        if (!dataRepository.findByName(dataModel.getName()).isPresent()) {
-                            dataRepository.save(dataModel);
-                        }
-                    } else {
-                        System.err.println("Skipping incomplete line: " + String.join(",", row));
-                    }
-                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-                    System.err.println("Skipping malformed line: " + String.join(",", row));
-                }
-            }
-            System.out.println("CSV data loaded successfully.");
-        } catch (Exception e) {
-            System.err.println("Error while loading CSV data: " + e.getMessage());
-        }
-    }
-
-    // CRUD operations
-    public List<DataModel> getAllData() {
-        return (List<DataModel>) dataRepository.findAll();
-    }
-
-    public boolean addData(DataModel dataModel) {
-        Optional<DataModel> existingData = dataRepository.findByName(dataModel.getName());
+    public boolean addData(DataModelDTO dataModelDTO) {
+        Optional<DataModel> existingData = dataRepository.findByName(dataModelDTO.getName());
         if (existingData.isPresent()) {
-            return false;  // Data already exists
+            return false; // Data already exists
         }
+        DataModel dataModel = convertToEntity(dataModelDTO);
         dataRepository.save(dataModel);
         return true;
     }
 
-    public boolean updateData(DataModel updatedDataModel) {
-        Optional<DataModel> existingData = dataRepository.findById(updatedDataModel.getId());
-        if (existingData.isPresent()) {
-            dataRepository.save(updatedDataModel);
-            return true;
+    public boolean updateData(DataModelDTO updatedDataModelDTO) {
+        Optional<DataModel> existingData = dataRepository.findById(updatedDataModelDTO.getId());
+        if (existingData.isEmpty()) {
+            return false; // Data not found
         }
-        return false;  // Data not found
+        DataModel dataModel = convertToEntity(updatedDataModelDTO);
+        dataRepository.save(dataModel);
+        return true;
     }
 
     public boolean deleteData(Long id) {
-        if (dataRepository.existsById(id)) {
-            dataRepository.deleteById(id);
-            return true;
+        if (!dataRepository.existsById(id)) {
+            return false; // Data not found
         }
-        return false;
+        dataRepository.deleteById(id);
+        return true;
     }
 
-    public List<DataModel> searchDataByKeyword(String keyword) {
-        return dataRepository.findByNameContainingOrCategoryContaining(keyword, keyword);
+    public List<DataModelDTO> searchDataByKeyword(String keyword) {
+        return dataRepository.findByNameContainingOrCategoryContaining(keyword, keyword).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<DataModel> getDataById(Long id) {
-        return dataRepository.findById(id);
+    private DataModelDTO convertToDTO(DataModel dataModel) {
+        List<UserReviewDTO> userReviews = dataModel.getUserReviews().stream()
+                .map(review -> new UserReviewDTO(
+                        review.getId(),
+                        review.getSentiment(),
+                        review.getSentimentPolarity(),
+                        review.getSentimentSubjectivity(),
+                        review.getReview()))
+                .collect(Collectors.toList());
+
+        return new DataModelDTO(
+                dataModel.getId(),
+                dataModel.getName(),
+                dataModel.getCategory(),
+                dataModel.getRating(),
+                dataModel.getReviews(),
+                dataModel.getSize(),
+                dataModel.getInstalls(),
+                dataModel.getType(),
+                dataModel.getPrice(),
+                dataModel.getContentRating(),
+                dataModel.getGenres(),
+                userReviews);
+    }
+
+    private DataModel convertToEntity(DataModelDTO dataModelDTO) {
+        DataModel dataModel = new DataModel();
+        dataModel.setId(dataModelDTO.getId());
+        dataModel.setName(dataModelDTO.getName());
+        dataModel.setCategory(dataModelDTO.getCategory());
+        dataModel.setRating(dataModelDTO.getRating());
+        dataModel.setReviews(dataModelDTO.getReviews());
+        dataModel.setSize(dataModelDTO.getSize());
+        dataModel.setInstalls(dataModelDTO.getInstalls());
+        dataModel.setType(dataModelDTO.getType());
+        dataModel.setPrice(dataModelDTO.getPrice());
+        dataModel.setContentRating(dataModelDTO.getContentRating());
+        dataModel.setGenres(dataModelDTO.getGenres());
+
+        List<UserReview> userReviews = dataModelDTO.getUserReviews().stream()
+                .map(reviewDTO -> new UserReview(
+                        reviewDTO.getId(),
+                        reviewDTO.getSentiment(),
+                        reviewDTO.getSentimentPolarity(),
+                        reviewDTO.getSentimentSubjectivity(),
+                        reviewDTO.getReview(),
+                        dataModel))
+                .collect(Collectors.toList());
+
+        dataModel.setUserReviews(userReviews);
+
+        return dataModel;
     }
 }

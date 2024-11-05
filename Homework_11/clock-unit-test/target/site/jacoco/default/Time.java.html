@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Time.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Clock Unit Test Project</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Time.java</span></div><h1>Time.java</h1><pre class="source lang-java linenums">/**
+ * A time for a race distance.
+ * Can be in the form MM:SS or HH:MM:SS
+ */
+public class Time {
+    
+    private final String strTime;
+    private final double dblTime;
+    private Integer hours;
+    private Integer minutes;
+    private Integer seconds;
+    
+    /**
+     * Constructor
+     * Example usage: 1:25:37
+     * @param time - the time as a string
+     * @throws IllegalArgumentException if the time cannot be parsed properly
+     */
+<span class="fc" id="L19">    public Time(String time) {</span>
+<span class="fc" id="L20">        String[] tokens = time.split(&quot;:&quot;);</span>
+        
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (tokens.length == 2) {</span>
+            try {
+<span class="fc" id="L24">                minutes = Integer.parseInt(tokens[0]);</span>
+<span class="fc" id="L25">                seconds = Integer.parseInt(tokens[1]);</span>
+                
+<span class="pc bpc" id="L27" title="2 of 8 branches missed.">                if (seconds &lt; 0 || seconds &gt; 59 || minutes &lt; 0 || minutes &gt; 59) {</span>
+<span class="fc" id="L28">                    throw new IllegalArgumentException(time + &quot; is not a valid time&quot;);</span>
+                }
+                
+                // Bug fix: Ensure dblTime is calculated correctly in minutes
+<span class="fc" id="L32">                this.dblTime = minutes + seconds / 60.0;</span>
+<span class="nc" id="L33">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L34">                throw new IllegalArgumentException(time + &quot; is not a valid time&quot;);</span>
+<span class="fc" id="L35">            }</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        } else if (tokens.length == 3) {</span>
+            try {
+<span class="fc" id="L38">                hours = Integer.parseInt(tokens[0]);</span>
+<span class="fc" id="L39">                minutes = Integer.parseInt(tokens[1]);</span>
+<span class="fc" id="L40">                seconds = Integer.parseInt(tokens[2]);</span>
+                
+<span class="pc bpc" id="L42" title="4 of 10 branches missed.">                if (seconds &lt; 0 || seconds &gt; 59 || minutes &lt; 0 || minutes &gt; 59 || hours &lt; 0) {</span>
+<span class="fc" id="L43">                    throw new IllegalArgumentException(time + &quot; is not a valid time&quot;);</span>
+                }
+                
+                // Bug fix: Correct calculation of dblTime in minutes
+<span class="fc" id="L47">                this.dblTime = 60 * hours + minutes + seconds / 60.0;</span>
+<span class="nc" id="L48">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L49">                throw new IllegalArgumentException(time + &quot; is not a valid time&quot;);</span>
+<span class="fc" id="L50">            }</span>
+        } else {
+<span class="fc" id="L52">            throw new IllegalArgumentException(time + &quot; is not a valid time&quot;);</span>
+        }
+        
+        // Bug fix: Ensure fields are set consistently
+<span class="fc" id="L56">        this.strTime = convert(this.dblTime);</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Constructor. 
+     * Example usage: 4.5 = &quot;4:30&quot;
+     * @param time - the time as a double value
+     * @throws IllegalArgumentException if time is negative
+     */
+<span class="fc" id="L65">    public Time(double time){</span>
+        // Bug fix: Check for negative time values
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (time &lt; 0) {</span>
+<span class="fc" id="L68">            throw new IllegalArgumentException(&quot;Time cannot be negative&quot;);</span>
+        }
+<span class="fc" id="L70">        this.dblTime = time;</span>
+<span class="fc" id="L71">        this.strTime = convert(time);</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Get the hours of this time.
+     * @return - the hours
+     */
+    public int getHours(){
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        return hours == null ? 0 : hours;</span>
+    }
+
+    /**
+     * Get the minutes for this time
+     * @return - the minutes
+     */
+    public int getMinutes(){
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        return minutes == null ? 0 : minutes;</span>
+    }
+
+    /**
+     * Get the seconds for this time
+     * @return - the seconds
+     */
+    public int getSeconds(){
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        return seconds == null ? 0 : seconds;</span>
+    }
+    
+    /**
+     * Get the time as a double
+     * Example: 4.5 = &quot;4:30&quot;
+     * @return - the time
+     */
+    public double toValue() {
+<span class="fc" id="L104">        return dblTime;</span>
+    }
+    
+    @Override
+    /**
+     * Get the time as a string
+     * &quot;4:14&quot; or &quot;3:07:48&quot;
+     * @return - the string representation
+     */
+    public String toString() {
+<span class="fc" id="L114">        return this.strTime;</span>
+    }
+
+    private String convert(double time) {
+        String convertedTime;
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (time &lt; 60){</span>
+<span class="fc" id="L121">            convertedTime = convert(time, false);</span>
+        } else {
+<span class="fc" id="L123">            int convertedHours = (int) (time / 60);</span>
+<span class="fc" id="L124">            double convertedMinutes = time - (60 * convertedHours);</span>
+<span class="fc" id="L125">            this.hours = convertedHours;</span>
+            // Bug fix: Ensure minutes and seconds are set correctly
+<span class="fc" id="L127">            convertedTime = convertedHours + &quot;:&quot; + convert(convertedMinutes, true);</span>
+        }
+
+<span class="fc" id="L130">        return convertedTime;</span>
+    }
+
+    private String convert(double time, boolean hasHours){
+        // Bug fix: Changed condition to 'time &gt; 60' to allow time equal to 60 minutes
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        if (time &gt; 60){</span>
+<span class="nc" id="L136">            throw new IllegalArgumentException(&quot;Time exceeds 60 minutes.&quot;);</span>
+        }
+
+<span class="fc" id="L139">        int convertedMinutes = (int)time;</span>
+<span class="fc" id="L140">        double convertedSeconds = 60 * (time - convertedMinutes);</span>
+
+        // Bug fix: Remove redundant casting and rounding
+<span class="fc" id="L143">        int roundedSeconds = (int)Math.round(convertedSeconds);</span>
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        if (roundedSeconds == 60) {</span>
+<span class="fc" id="L146">            convertedMinutes++;</span>
+<span class="fc" id="L147">            roundedSeconds = 0;</span>
+        }
+        
+        // Bug fix: Set minutes and seconds correctly
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (hasHours) {</span>
+<span class="fc" id="L152">            this.minutes = convertedMinutes;</span>
+        } else {
+<span class="fc" id="L154">            this.minutes = convertedMinutes;</span>
+        }
+<span class="fc" id="L156">        this.seconds = roundedSeconds;</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        return (hasHours ? pad(convertedMinutes) : convertedMinutes) + &quot;:&quot; + pad(roundedSeconds);</span>
+    }
+    
+    /**
+     * Bug fix: Added missing 'pad' method to format numbers less than 10
+     * Pads a value as a two-digit representation.
+     * e.g., 9 becomes &quot;09&quot;
+     * @param value - the value to pad
+     * @return - the padded string
+     */
+    private String pad(int value) {
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        return (value &lt; 10) ? &quot;0&quot; + value : String.valueOf(value);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

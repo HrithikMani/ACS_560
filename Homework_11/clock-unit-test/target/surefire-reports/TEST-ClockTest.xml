@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="ClockTest" time="0.114" tests="17" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="22"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\software_engineering\Homework_11\clock-unit-test\target\test-classes;C:\software_engineering\Homework_11\clock-unit-test\target\classes;C:\Users\hrith\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hrith\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="22"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Users\hrith\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre\bin"/>
+    <property name="sun.java.command" value="C:\Users\hrith\AppData\Local\Temp\surefire4205137883935109608\surefirebooter10417055936446852162.jar C:\Users\hrith\AppData\Local\Temp\surefire4205137883935109608 2024-11-04T21-34-44_963-jvmRun1 surefire14476375701207891957tmp surefire_015782700534075124720tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\software_engineering\Homework_11\clock-unit-test\target\test-classes;C:\software_engineering\Homework_11\clock-unit-test\target\classes;C:\Users\hrith\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hrith\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\hrith"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-07-16"/>
+    <property name="java.home" value="C:\Users\hrith\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\software_engineering\Homework_11\clock-unit-test"/>
+    <property name="style.color" value="always"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\hrith\AppData\Local\Temp\surefire4205137883935109608\surefirebooter10417055936446852162.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="22.0.2+9"/>
+    <property name="user.name" value="hrith"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-22.0.2+9"/>
+    <property name="localRepository" value="C:\Users\hrith\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\hrith\AppData\Local\Temp\"/>
+    <property name="java.version" value="22.0.2"/>
+    <property name="user.dir" value="C:\software_engineering\Homework_11\clock-unit-test"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\hrith\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre\bin;C:\windows\Sun\Java\bin;C:\windows\system32;C:\windows;C:/Users/hrith/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626/jre/bin/server;C:/Users/hrith/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Users\hrith\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\hrith\AppData\Local\Programs\Python\Python312\;C:\Users\hrith\AppData\Local\Microsoft\WindowsApps;C:\Users\hrith\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\hrith\AppData\Roaming\npm;C:\Program Files\HP\OMEN-Broadcast\Common;C:\ProgramData\chocolatey\bin;C:\Users\hrith\Downloads\apache-maven-3.9.6-bin\apache-maven-3.9.6\bin;C:\Program Files\HP\HP One Agent;C:\Program Files\Docker\Docker\resources\bin;C:\kubectl;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\hrith\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\hrith\AppData\Local\Programs\Python\Python310\;C:\Users\hrith\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\hrith\AppData\Local\Programs\Python\Python312\;C:\Users\hrith\AppData\Local\Microsoft\WindowsApps;C:\Users\hrith\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\hrith\AppData\Roaming\npm;C:\tools\dart-sdk\bin;C:\Users\hrith\AppData\Local\Pub\Cache\bin;C:\Users\hrith\Downloads\apache-maven-3.9.6-bin\apache-maven-3.9.6\bin;C:\Program Files\Amazon\AWSCLIV2;;C:\windows\System32;;."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="22.0.2+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="66.0"/>
+  </properties>
+  <testcase name="testGet24HourFormat" classname="ClockTest" time="0.008"/>
+  <testcase name="testPadMethod" classname="ClockTest" time="0"/>
+  <testcase name="testAddHour" classname="ClockTest" time="0"/>
+  <testcase name="testConstructorExceedingMinuteLimit" classname="ClockTest" time="0"/>
+  <testcase name="testAddSecondIncrementMinute" classname="ClockTest" time="0.001"/>
+  <testcase name="testConstructorExceedingHourLimit" classname="ClockTest" time="0"/>
+  <testcase name="testConstructorValidTime" classname="ClockTest" time="0.001"/>
+  <testcase name="testGet12HourFormatMidnight" classname="ClockTest" time="0"/>
+  <testcase name="testGet12HourFormatAM" classname="ClockTest" time="0"/>
+  <testcase name="testGet12HourFormatPM" classname="ClockTest" time="0"/>
+  <testcase name="testConstructorNegativeValues" classname="ClockTest" time="0"/>
+  <testcase name="testAddHourWrapAround" classname="ClockTest" time="0.001"/>
+  <testcase name="testAddMinute" classname="ClockTest" time="0"/>
+  <testcase name="testAddSecond" classname="ClockTest" time="0.001"/>
+  <testcase name="testConstructorExceedingSecondLimit" classname="ClockTest" time="0"/>
+  <testcase name="testAddMinuteIncrementHour" classname="ClockTest" time="0.001"/>
+  <testcase name="testGet12HourFormatNoon" classname="ClockTest" time="0"/>
+</testsuite>
