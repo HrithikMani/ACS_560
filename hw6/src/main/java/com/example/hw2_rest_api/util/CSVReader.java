@@ -37,13 +37,7 @@ public class CSVReader {
                 dataModel.setName(data[0].replaceAll("\"", "").trim());
                 dataModel.setCategory(data[1].replaceAll("\"", "").trim());
 
-                // Parse rating, handle NaN or invalid values
-                try {
-                    double rating = Double.parseDouble(data[2]);
-                    dataModel.setRating(rating);
-                } catch (NumberFormatException e) {
-                    dataModel.setRating(0.0);  // Default value if NaN or invalid
-                }
+           
 
                 // Parse reviews
                 try {
@@ -59,12 +53,7 @@ public class CSVReader {
                 dataModel.setInstalls(data[5].replaceAll("\"", ""));
                 dataModel.setType(data[6].replaceAll("\"", ""));
 
-                // Parse price
-                try {
-                    dataModel.setPrice(Double.parseDouble(data[7]));
-                } catch (NumberFormatException e) {
-                    dataModel.setPrice(0.0);  // Default value if invalid
-                }
+           
 
                 // Set content rating and genres
                 dataModel.setContentRating(data[8].replaceAll("\"", "").trim());

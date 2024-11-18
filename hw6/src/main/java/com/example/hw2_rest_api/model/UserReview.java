@@ -2,6 +2,11 @@ package com.example.hw2_rest_api.model;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "user_review")
 public class UserReview {
@@ -10,31 +15,66 @@ public class UserReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sentiment;
-    private Float sentimentPolarity;
-    private Float sentimentSubjectivity;
-    private String review;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "data_model_id")
+    @ManyToOne
+    @JoinColumn(name = "data_model_id", nullable = false)
+    @JsonBackReference
     private DataModel dataModel;
 
+
+    private String sentiment;
+    private BigDecimal sentimentPolarity;
+    private BigDecimal sentimentSubjectivity;
+
+    @Column(columnDefinition = "TEXT")
+    private String review;
+
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getSentiment() { return sentiment; }
-    public void setSentiment(String sentiment) { this.sentiment = sentiment; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Float getSentimentPolarity() { return sentimentPolarity; }
-    public void setSentimentPolarity(Float sentimentPolarity) { this.sentimentPolarity = sentimentPolarity; }
+    public DataModel getDataModel() {
+        return dataModel;
+    }
 
-    public Float getSentimentSubjectivity() { return sentimentSubjectivity; }
-    public void setSentimentSubjectivity(Float sentimentSubjectivity) { this.sentimentSubjectivity = sentimentSubjectivity; }
+    public void setDataModel(DataModel dataModel) {
+        this.dataModel = dataModel;
+    }
 
-    public String getReview() { return review; }
-    public void setReview(String review) { this.review = review; }
+    public String getSentiment() {
+        return sentiment;
+    }
 
-    public DataModel getDataModel() { return dataModel; }
-    public void setDataModel(DataModel dataModel) { this.dataModel = dataModel; }
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
+
+    public BigDecimal getSentimentPolarity() {
+        return sentimentPolarity;
+    }
+
+    public void setSentimentPolarity(BigDecimal sentimentPolarity) {
+        this.sentimentPolarity = sentimentPolarity;
+    }
+
+    public BigDecimal getSentimentSubjectivity() {
+        return sentimentSubjectivity;
+    }
+
+    public void setSentimentSubjectivity(BigDecimal sentimentSubjectivity) {
+        this.sentimentSubjectivity = sentimentSubjectivity;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
 }

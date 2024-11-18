@@ -1,6 +1,7 @@
 package com.example.hw2_rest_api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,36 +9,47 @@ import com.example.hw2_rest_api.model.UserReview;
 import com.example.hw2_rest_api.services.UserReviewService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/user-reviews")
 public class UserReviewController {
 
     @Autowired
     private UserReviewService userReviewService;
 
-    // Endpoint to save a review for a specific app
-    @PostMapping("/app/{appId}")
-    public ResponseEntity<UserReview> saveReview(@PathVariable Long appId, @RequestBody UserReview review) {
-        try {
-            UserReview savedReview = userReviewService.saveReview(appId, review);
-            return ResponseEntity.ok(savedReview);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+    @GetMapping
+    public List<UserReview> getAllUserReviews() {
+        return userReviewService.getAllUserReviews();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserReview> getUserReviewById(@PathVariable Long id) {
+        Optional<UserReview> userReview = userReviewService.getUserReviewById(id);
+        return userReview.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<UserReview> createUserReview(@RequestBody UserReview userReview) {
+        UserReview createdUserReview = userReviewService.saveUserReview(userReview);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserReview);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserReview> updateUserReview(@PathVariable Long id, @RequestBody UserReview userReview) {
+        if (!userReviewService.getUserReviewById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
         }
+        UserReview updatedUserReview = userReviewService.updateUserReview(id, userReview);
+        return ResponseEntity.ok(updatedUserReview);
     }
 
-    // Endpoint to get all reviews for a specific app
-    @GetMapping("/app/{appId}")
-    public ResponseEntity<List<UserReview>> getReviewsByAppId(@PathVariable Long appId) {
-        List<UserReview> reviews = userReviewService.getReviewsByAppId(appId);
-        return ResponseEntity.ok(reviews);
-    }
-
-    // Endpoint to delete a review by its ID
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
-        userReviewService.deleteReview(reviewId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserReview(@PathVariable Long id) {
+        if (!userReviewService.getUserReviewById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        userReviewService.deleteUserReview(id);
         return ResponseEntity.noContent().build();
     }
 }
