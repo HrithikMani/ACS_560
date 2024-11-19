@@ -1,0 +1,9 @@
+Rating Analysis
+Mean Rating: NaN
+Median Rating: 4.4
+Mode Ratings: [NaN]
+
+Install Count Analysis
+Mean Installs: 55282.569755600816
+Median Installs: 100.0
+Mode Installs: [100]
